@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,300..800;1,300..800&family=PT+Sans+Caption:wght@400;700&display=swap');
+
+.Title {
+	background-color: #E3CBA5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 2rem 4rem 0 4rem;
+	border-radius: 10px;
+	height: 25vh;
+}
+
+.TitleText {
+	font-family: "PT Sans Caption", sans-serif;
+	font-weight: 700;
+	font-style: normal;
+	font-size: 75px;
+	color: #335345;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+.TitleSubtext {
+	font-family: "PT Sans Caption", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 25px;
+	color: #335345;
+	margin-top: 5px;
+	text-align: center;
+}
+
+.buttonandimg {
+	display: flex;
+	flex-direction: row;
+	flex: 1 1 auto;
+	height: 75vh;
+	margin: 0 4rem 0 4rem;
+}
+
+.ButtonContainer {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: space-around;
+	border-radius: 10px;
+	border: none;
+}
+
+.Buttons {
+    background-color: #8D4E2C;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-family: "PT Sans Caption", sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+		width: calc(50vw - 50px);
+}
+
+.HomeImage {
+    justify-content: center;
+    align-items: center;
+    margin: 40px;
+}
