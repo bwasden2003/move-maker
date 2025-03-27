@@ -1,16 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,300..800;1,300..800&family=PT+Sans+Caption:wght@400;700&display=swap');
 
-.Title {
-	background-color: #E3CBA5;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 20px;
-	border-radius: 10px;
+body {
+  background-color: #F4EDE1; /* Light gray background color */
 }
 
-.TitleText {
+.MTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 4rem 0 4rem;
+  border-radius: 10px;
+  height: 25vh;
+}
+
+.MTitleText {
     font-family: "PT Sans Caption", sans-serif;
 		font-weight: 500;
 		font-style: normal;
@@ -18,13 +22,15 @@
     color: #335345;
 		margin-top: 10px;
     margin-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
     text-align: center;
     background-color: white;
     border: #335345 3px solid;
     border-radius: 10px;
 }
 
-.TitleSubtext {
+.MTitleSubtext {
 		font-family: "PT Sans Caption", sans-serif;
 		font-weight: 400;
 		font-style: normal;
@@ -34,32 +40,159 @@
 		text-align: center;
 }
 
-.buttonandimg {
-	display: flex;
+.MPageContent {
+  display: flex;
 	flex-direction: row;
-	flex: 1 1 auto;
+  flex: 1;
+  width: 100vw;
+  height: 100vh;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.MDanceInput {
+  border-radius: 5px;
+  border-color:#335345;
+  border-width: 2px;
+  padding-left: 5px;
+  margin-bottom: 20px;
+  width: 75%;
+}
+/* Container for Video Upload and Title input */
+.MUploadVideoTitleContainer {
+  display: flex;
+	flex-direction: column;
+  margin: 20px 40px 20px 40px;
+  width: 100%;
+}
+/* Container for Video upload */
+.MUploadVideoContainer {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 16 / 15;
+  border: 2px solid #335345;
+  border-radius: 10px;
+  padding: 10px 20px 5px 20px;
+  background-color: white;
 }
 
-.ButtonContainer {
-    display: flex;
-		flex-direction: column;
-    text-align: center;
-    border-radius: 10px;
-    border: none;
-    margin: 20px;
+.MImportFileContainer {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 16 / 10;
+	justify-content: center;
+  border: 2px dashed #335345;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 50px 10px 50px 10px;
+  background-color: white;
+}
+label {
+  cursor: pointer;
+  font-family: "PT Sans Caption", sans-serif;
+  font-size: 20px;
+  border: 2px solid #335345;
+  width: 35%;
+  align-self: center;
+  background-color: #172F1A;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+}
+.MChooseFile {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
 }
 
-.Buttons {
-    background-color: #8D4E2C;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    font-family: "PT Sans Caption", sans-serif;
-    font-size: 36px;
-    margin-bottom: 30px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left:  50px;
-    padding-right: 50px;
-		width: 50vw;
+.MEditSaveContainer {
+  display: flex;
+	flex-direction: column;
+  margin: 20px 40px 20px 40px;
+  width: 100%;
+}
+/* Container for Video upload */
+.MSaveButton {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #A5A5A5;
+  border-radius: 10px;
+  background-color: #d9d9d9;
+  color: white;
+  font-family: "PT Sans Caption", sans-serif;
+  font-size: 25px;
+  padding: 10px 20px 10px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.MVideoPreviewContainer {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #335345;
+  border-radius: 10px;
+  padding: 10px 20px 5px 20px;
+  background-color: white;
+  width: 100%;
+}
+
+.MSkeletonContainer {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 16 / 10;
+	justify-content: center;
+  border: 2px dashed #335345;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 50px 10px 50px 10px;
+  background-color: white;
+}
+
+
+/* Text properties */
+.MBoldText {
+  font-family: "PT Sans Caption", sans-serif;
+	font-weight: 600;
+	font-style: normal;
+  font-size: 25px;
+  color: #335345;
+  margin-top: 5px;
+	text-align: left;
+}
+.MDragText {
+  font-family: "PT Sans Caption", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+  font-size: 20px;
+  color: #335345;
+  margin-top: 5px;
+	text-align: center;
+}
+.MOrText {
+  font-family: "PT Sans Caption", sans-serif;
+	font-weight: 200;
+  font-size: 25px;
+  color: #335345;
+  margin-top: 5px;
+	text-align: center;
+}
+.MRegText {
+  font-family: "PT Sans Caption", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+  font-size: 25px;
+  color: #172F1A;
+  margin-top: 5px;
+  margin-bottom: 0px;
+	text-align: left;
+}
+.MSmallText {
+  font-family: "PT Sans Caption", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+  font-size: 12px;
+  color: #A5A5A5;
+	text-align: left;
 }
