@@ -8,14 +8,7 @@ function DanceBank() {
     const navigateTo = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [difficultyFilter, setDifficultyFilter] = useState([]);
-    const handleSearch = (e) => {
-		setSearchTerm(e.target.value.toLowerCase());
-	};
-    const handleDifficultyChange = (level) => {
-        setDifficultyFilter((prev) =>
-            prev.includes(level) ? prev.filter((d) => d !== level) : [...prev, level]
-        );
-    };
+
 
     const dances = [
         { title: "Poker Face", artist: "Lady Gaga", difficulty: "Medium", time: "3:07", img: "./DancingDude.png" },
@@ -26,11 +19,32 @@ function DanceBank() {
         { title: "U Can’t Touch This", artist: "MC Hammer", difficulty: "Medium", time: "4:34", img: "./DancingDude.png" },
     ];
 
+    const handleSearch = (e) => {
+		setSearchTerm(e.target.value.toLowerCase());
+	};
+
+
+    const handleDifficultyChange = (level) => {
+        setDifficultyFilter((prev) =>
+            prev.includes(level) ? prev.filter((d) => d !== level) : [...prev, level]
+        );
+    };
+
+    const filteredDances = dances.filter((dance) => {
+        let searched = dance.title.toLowerCase().includes(searchTerm);
+        let diffFilter = difficultyFilter.length === 0 || difficultyFilter.includes(dance.difficulty);
+        return searched && diffFilter;
+    })
+    
+
+
+
+
 
   return (
     <div>
         <div class="NavBar">
-            <button className="HomeButtonPlus"> Home</button>
+            <button className="HomeButtonPlus" onClick={() => navigateTo("/")}> Home</button>
             <button className="HeadButton"> Dance Bank</button>
             <button className="HomeButtonPlus">+</button>
         </div>
@@ -85,7 +99,7 @@ function DanceBank() {
 
         <div className="Dances">
             {/* <p>Welcome to the Dance Bank!</p> */}
-            {dances.map((dance, i) => (
+            {filteredDances.map((dance, i) => (
                 <Link   key={i}
                         to={`/dance-bank/${encodeURIComponent(dance.title)}`} 
                         className="DanceCard"
