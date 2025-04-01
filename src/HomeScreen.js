@@ -16,6 +16,7 @@ function HomeScreen() {
               <button className="Buttons">Browse</button>
               <Link to="/dance-bank" className="Buttons">Dance Bank</Link>
               <button className="Buttons">Move Bank</button>
+              <Link to="/move-creator" className="Buttons">Move Creator</Link>
           </div>
           <img class="HomeImage" src={DancingDude} alt="homepage image"	/>
       </div>
