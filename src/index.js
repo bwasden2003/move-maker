@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import HomeScreen from './HomeScreen';
@@ -12,8 +13,7 @@ root.render(
 		<head>
 			<link href="https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,300..800;1,300..800&family=PT+Sans+Caption:wght@400;700&display=swap" rel="stylesheet"></link>
 		</head>
-    <HomeScreen />
-    <MoveCreator />
+    <App />
   </React.StrictMode>
 );
 

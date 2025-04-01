@@ -1,0 +1,190 @@
+:root {
+    --color-background: #F0EAD6;
+    --color-timeline-bg: #8B7355;
+    --color-timeline-grid: #4F7342;
+    --color-text-primary: #2C5E1A;
+    --color-clip-bg: #D2B48C;
+    --color-clip-hover: #E6CCB2;
+    --color-clip-active: #CAAE7B;
+    --color-grid-line: rgba(79, 115, 66, 0.3);
+    --color-grid-line-major: rgba(79, 115, 66, 0.6);
+    --color-playhead: #ff5252;
+    --color-timeline-drag: rgba(44, 94, 26, 0.2);
+}
+
+.video-timeline {
+    background-color: var(--color-background);
+    min-height: 160px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-ruler {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    background-color: var(--color-timeline-grid);
+    color: var(--color-background);
+    padding: 0 15px;
+    border-radius: 6px 6px 0 0;
+    font-weight: bold;
+}
+
+.timeline-zoom-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.zoom-btn {
+    background: var(--color-background);
+    color: var(--color-timeline-grid);
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-container {
+    position: relative;
+    height: 120px;
+    background-color: var(--color-timeline-bg);
+    border-radius: 0 0 8px 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    transition: background-color 0.2s;
+}
+
+.timeline-drag-over {
+    background-color: var(--color-timeline-drag);
+}
+
+.timeline-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.timeline-grid-label {
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 10px;
+}
+
+.timeline-empty-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--color-text-primary);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.timeline-moves-container {
+    position: relative;
+    min-height: 100%;
+}
+
+.video-clip {
+    background-color: var(--color-clip-bg);
+    border-radius: 4px;
+    padding: 8px;
+    cursor: grab;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.video-clip:hover {
+    background-color: var(--color-clip-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.video-clip:active {
+    background-color: var(--color-clip-active);
+    cursor: grabbing;
+}
+
+.video-clip-title {
+    font-weight: bold;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}
+
+.video-clip-duration {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+}
+
+.video-clip-duration input {
+    flex: 1;
+    height: 8px;
+}
+
+.video-clip-handle {
+    position: absolute;
+    width: 8px;
+    height: 100%;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: col-resize;
+    z-index: 10;
+    transition: background-color 0.2s;
+}
+
+.video-clip-handle:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.video-clip-handle:active {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.video-clip-handle.left {
+    left: 0;
+    border-radius: 4px 0 0 4px;
+}
+
+.video-clip-handle.right {
+    right: 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.timeline-playhead {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background-color: var(--color-playhead);
+    z-index: 100;
+    pointer-events: none;
+}
+
+/* Prevent text selection during dragging */
+.video-clip {
+    user-select: none;
+    -webkit-user-select: none;
+}
