@@ -1,0 +1,68 @@
+
+.NavBar {
+	
+	display: flex;
+	    flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin: 1rem 2rem 0 2rem;
+	border-radius: 10px;
+	height: 15vh;
+    
+}
+
+.HomeButtonPlus{
+    background-color: #ffffff;
+    border-radius: 10px;
+    border-color: #335345;
+    color: #335345;
+    font-family: "PT Sans Caption", sans-serif;
+    font-size: 48px;
+    font-weight: bold;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.HeadButton{
+    background-color: #ffffff;
+    border-radius: 10px;
+    border-color: #335345;
+    color: #335345;
+    font-family: "PT Sans Caption", sans-serif;
+    font-size: 96px;
+    font-weight: bold;
+
+    padding-bottom: 15px;
+}
+
+.SortAndFilter{
+    position: sticky;
+}
+
+.Difficulty{
+    display: flex;
+        flex-direction: column;
+    padding-left: 20px;
+}
+
+.Dances{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 2fr)); 
+    gap: 15px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.DanceCard{
+    background: #94a094;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    border: 2px solid black;
+    transition: transform 0.2s ease-in-out;
+}
+

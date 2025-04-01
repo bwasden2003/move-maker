@@ -5,6 +5,7 @@ import DancingDude from './DancingDude.png';
 import { Link } from 'react-router-dom';
 
 function HomeScreen() {
+  const navigateTo = useNavigate();
 	return (
 		<>
       <div className="Title">

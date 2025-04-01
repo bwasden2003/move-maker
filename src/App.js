@@ -4,6 +4,10 @@ import DanceCreation from './DanceCreation';
 import MoveCreator from './MoveCreator'
 import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import HomeScreen from "./HomeScreen";
+import DanceBank from "./DanceBank";
 
 function App() {
   return (
@@ -20,3 +24,4 @@ function App() {
 }
 
 export default App;
+
