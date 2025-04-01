@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/move-maker/static/css/main.db56750a.css",
+    "main.js": "/move-maker/static/js/main.acf339ea.js",
+    "static/js/453.247fcc76.chunk.js": "/move-maker/static/js/453.247fcc76.chunk.js",
+    "static/media/DancingDude.png": "/move-maker/static/media/DancingDude.bfb15104baca59ccba6a.png",
+    "index.html": "/move-maker/index.html",
+    "main.db56750a.css.map": "/move-maker/static/css/main.db56750a.css.map",
+    "main.acf339ea.js.map": "/move-maker/static/js/main.acf339ea.js.map",
+    "453.247fcc76.chunk.js.map": "/move-maker/static/js/453.247fcc76.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.db56750a.css",
+    "static/js/main.acf339ea.js"
+  ]
+}
