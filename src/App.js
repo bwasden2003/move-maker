@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import HomeScreen from './HomeScreen';
 import DanceCreation from './DanceCreation';
 import DanceBank from "./DanceBank";
@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/move-creator" element={<MoveCreator />} />
@@ -16,7 +16,7 @@ function App() {
         <Route path="/dance-creator" element={<DanceCreation />} />
         {/* Add other routes as needed */}
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
