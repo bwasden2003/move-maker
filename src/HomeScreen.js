@@ -1,11 +1,9 @@
 import React from 'react';
 import './HomeScreen.css';
-import logo from './logo.svg';
 import DancingDude from './DancingDude.png';
 import { Link } from 'react-router-dom';
 
 function HomeScreen() {
-  const navigateTo = useNavigate();
 	return (
 		<>
       <div className="Title">
@@ -16,7 +14,7 @@ function HomeScreen() {
           <div className="ButtonContainer">
               <button className="Buttons">Browse</button>
               <Link to="/dance-bank" className="Buttons">Dance Bank</Link>
-              <button className="Buttons">Move Bank</button>
+              <Link to="/dance-creator" className="Buttons">Dance Creator</Link>
               <Link to="/move-creator" className="Buttons">Move Creator</Link>
           </div>
           <img class="HomeImage" src={DancingDude} alt="homepage image"	/>

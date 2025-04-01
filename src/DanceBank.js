@@ -1,11 +1,8 @@
 import React, { useState, useEffect }from "react";
 import './DanceBank.css';
-import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import DancingDude from './DancingDude.png'
 
 function DanceBank() {
-    const navigateTo = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [difficultyFilter, setDifficultyFilter] = useState([]);
 
@@ -44,7 +41,7 @@ function DanceBank() {
   return (
     <div>
         <div class="NavBar">
-            <button className="HomeButtonPlus" onClick={() => navigateTo("/")}> Home</button>
+            <Link to="/" className="HomeButtonPlus">Home</Link>
             <button className="HeadButton"> Dance Bank</button>
             <button className="HomeButtonPlus">+</button>
         </div>

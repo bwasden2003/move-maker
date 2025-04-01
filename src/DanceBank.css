@@ -15,12 +15,14 @@
     background-color: #ffffff;
     border-radius: 10px;
     border-color: #335345;
+    border-style: solid;
     color: #335345;
     font-family: "PT Sans Caption", sans-serif;
     font-size: 48px;
     font-weight: bold;
     padding-top: 15px;
     padding-bottom: 15px;
+    text-decoration: none;
 }
 
 .HeadButton{

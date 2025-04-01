@@ -60,7 +60,8 @@
     margin-bottom: 30px;
     padding-top: 15px;
     padding-bottom: 15px;
-		width: calc(50vw - 50px);
+	width: calc(50vw - 50px);
+	text-decoration: none;
 }
 
 .HomeImage {
