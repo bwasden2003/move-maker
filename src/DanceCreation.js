@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import VideoTimeline from './VideoTimeline';
+import { useDanceData } from './DanceDataContext';
 import './DanceCreation.css';
 
 // Sample move icons - in a real implementation, these would be thumbnails
@@ -15,14 +16,7 @@ const moveIcons = {
 
 const DanceCreation = () => {
   // Available moves in the library
-  const [availableMoves, setAvailableMoves] = useState([
-    { id: 'it-takes-two', name: 'It Takes Two', duration: 2.3, originalDuration: 2.3 },
-    { id: 'yippee', name: 'Yippee', duration: 0.8, originalDuration: 0.8 },
-    { id: 'moonwalk', name: 'Moonwalk', duration: 1.5, originalDuration: 1.5 },
-    { id: 'twist', name: 'Twist', duration: 1.2, originalDuration: 1.2 },
-    { id: 'spin', name: 'Spin', duration: 0.9, originalDuration: 0.9 },
-    { id: 'jump', name: 'Jump', duration: 0.5, originalDuration: 0.5 },
-  ]);
+  const { moves: availableMoves } = useDanceData();
 
   // Moves placed on the timeline
   const [timelineMoves, setTimelineMoves] = useState([]);
@@ -199,7 +193,9 @@ const DanceCreation = () => {
               >
                 <span className="move-icon">{moveIcons[move.name] || '🕺'}</span>
                 <span className="move-name">{move.name}</span>
-                <span className="move-duration">{move.duration.toFixed(1)}s</span>
+                <span className="move-duration">
+                  {move.duration ? move.duration.toFixed(1) : 'N/A'}s
+                </span>
               </div>
             ))}
           </div>
