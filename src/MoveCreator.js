@@ -11,15 +11,34 @@ function MoveCreator() {
     const [videoDuration, setVideoDuration] = useState(null);
     
     const handleFile = (file) => {
+        const formData = new FormData();
+        formData.append('video', file);
+        let videoPath = null;
         if (file && file.type.startsWith('video/')) {
-            console.log('File accepted:', file);
-            setSelectedFile(file);
-            const url = URL.createObjectURL(file);
-            setPreviewUrl(url);
-            console.log('Preview URL generated:', url);
+            fetch('http://localhost:5000/process-video', {
+                method: 'POST',
+                body: formData
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    videoPath = data.videoPath;
+                    if (videoPath && videoPath.type.startsWith('video/')) {
+                        console.log('File accepted:', videoPath);
+                        setSelectedFile(videoPath);
+                        const url = URL.createObjectURL(videoPath);
+                        setPreviewUrl(url);
+                        console.log('Preview URL generated:', url);
+                    } else {
+                        alert('Could not find skeleton file.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error calling Python script:', error);
+                });
         } else {
-            alert('Please provide a valid video file.');
+            alert('Please select a valid video file.');
         }
+        
     };
 
     const handleDrop = (e) => {
