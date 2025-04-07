@@ -232,3 +232,41 @@ label {
   color: #A5A5A5;
 	text-align: left;
 }
+
+/* Add these to your MoveCreator.css file */
+
+.MProgressBar {
+  width: 100%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.MProgressBarFill {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.MProcessButton {
+  padding: 10px 15px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.MProcessButton:hover {
+  background-color: #0b7dda;
+}
+
+.MProcessButton:disabled,
+.MSaveButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
