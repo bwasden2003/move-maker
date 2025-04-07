@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from moviepy.editor import VideoFileClip
 import uuid
-app = Flask(__name__, static_folder="static")
+app = Flask(__name__)
 CORS(app)
 @app.route('/process-video', methods=['POST', 'OPTIONS'])
 def process_video():
@@ -81,7 +81,7 @@ def process_video():
     output_video.release()
     clip = VideoFileClip('src/output_skeleton_video3.avi')
     clip.write_videofile('src/output_skeleton_video3.mp4', codec='libx264')
-    return jsonify({"message": "Video processed successfully","videoPath": "src/output_skeleton_video3.mp4"}), 200
+    return jsonify({"message": "Video processed successfully","videoPath": "/output_skeleton_video3.mp4"}), 200
 
 if __name__ == '__main__': 
     app.run(debug=True) 

@@ -7,6 +7,9 @@ function MoveCreator() {
     const { moves, addMove } = useDanceData();
     const [title, setTitle] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const [uploadedFile, setUploadedFile] = useState(null);
+    const [uploadUrl, setUploadUrl] = useState(null);
+    const [uploadVideoDuration, setUploadVideoDuration] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [videoDuration, setVideoDuration] = useState(null);
 
@@ -35,7 +38,7 @@ function MoveCreator() {
                     videoPath = data.videoPath;
                     try {
                         const fileObject = await getFileFromUrl(videoPath);
-                        console.log('File object created:', fileObject);
+                        console.log('File object created:', videoPath);
                         setSelectedFile(fileObject);
                         const url = URL.createObjectURL(fileObject);
                         setPreviewUrl(url);
@@ -61,6 +64,12 @@ function MoveCreator() {
     };
 
     const handleFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setUploadedFile(file);
+            const url = URL.createObjectURL(file);
+            setUploadUrl(url);
+        }
         const file = e.target.files[0];
         console.log('File selected:', file);
         handleFile(file);
@@ -74,8 +83,7 @@ function MoveCreator() {
         }
         const moveData = {
             name: title || selectedFile.name,
-            videoUrl: previewUrl,
-            file: selectedFile,
+            videoUrl: previewUrl, 
             duration: videoDuration,
             // Additional metadata (e.g., thumbnail) can be added here.
         };
@@ -83,8 +91,8 @@ function MoveCreator() {
         addMove(moveData);
     };
 
-	return (
-		<>
+    return (
+        <>
             <div className="MTitle">
                 <Link to="/" className="MBackButton">Back</Link>
                 <h1 className="MTitleText">Move Creator</h1>
@@ -106,28 +114,47 @@ function MoveCreator() {
                     <h3 className="MSmallText">
                     Upload a video to convert into a dance. Be sure the dancer's full body is in frame.
                     </h3>
-                    <div 
-                    className="MImportFileContainer"
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleDrop}
-                    >
-                    <h2 className="MDragText">Drag and drop video here</h2>
-                    <h2 className="MOrText">OR</h2>
-                    <label htmlFor="file">Browse Files</label>
-                    <input 
-                        className="MChooseFile" 
-                        type="file" 
-                        id="file" 
-                        name="file" 
-                        accept="video/*" 
-                        onChange={handleFileChange}
-                    />
-                    </div>
+                    {!uploadedFile && (
+                        <div 
+                        className="MImportFileContainer"
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={handleDrop}
+                        >
+                        <h2 className="MDragText">Drag and drop video here</h2>
+                        <h2 className="MOrText">OR</h2>
+                        <label htmlFor="file">Browse Files</label>
+                        <input 
+                            className="MChooseFile" 
+                            type="file" 
+                            id="file" 
+                            name="file" 
+                            accept="video/*" 
+                            onChange={handleFileChange}
+                        />
+                        </div>
+                    )}
+                    {uploadedFile && (
+                        <div 
+                        className="MImportFileContainer"
+                        >
+                        <video className="MImportVideo" controls width="250" height="250" src={uploadUrl} onLoadedMetadata={(e) => {
+                            const duration = e.target.duration;
+                            console.log('Video duration:', duration);
+                            setUploadVideoDuration(duration);
+                        }}/>
+                        
+                        </div>
+                    )}
                 </div>
                 </div>
                 <div className="MEditSaveContainer">
                 <div className="saveButtons">
-                    <button className="MSaveButton" onClick={handleSave}>Save</button>
+                    <button 
+                        className={`MSaveButton ${previewUrl ? 'MSaveButtonActive' : ''}`} 
+                        onClick={handleSave}
+                    >
+                        Save
+                    </button>
                 </div>
                 <div className="MVideoPreviewContainer">
                     <h2 className="MRegText">Edit Movements</h2>
@@ -136,7 +163,7 @@ function MoveCreator() {
                     </h2>
                     {/* Preview the video if available */}
                     {previewUrl && (
-                    <video controls width="250" height="250" src={previewUrl} onLoadedMetadata={(e) => {
+                    <video id="MSkeletonVideo" className='MImportVideo' width="250" height="250" src={previewUrl} onLoadedMetadata={(e) => {
                         const duration = e.target.duration;
                         console.log('Video duration:', duration);
                         setVideoDuration(duration);
@@ -146,7 +173,7 @@ function MoveCreator() {
                 </div>
             </div>
         </>
-	);
+    );
 }
 
 export default MoveCreator;
