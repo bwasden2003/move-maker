@@ -9,7 +9,18 @@ function MoveCreator() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [videoDuration, setVideoDuration] = useState(null);
-    
+
+    // convert the URL to a file object
+    async function getFileFromUrl(url, filename = 'downloadedVideo.mp4') {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching file: ${response.statusText}`);
+        }
+        const blob = await response.blob();
+        return new File([blob], filename, { type: blob.type });
+    }
+
+    // handle the file upload and send it to the python script
     const handleFile = (file) => {
         const formData = new FormData();
         formData.append('video', file);
@@ -20,16 +31,17 @@ function MoveCreator() {
                 body: formData
             })
                 .then((response) => response.json())
-                .then((data) => {
+                .then(async (data) => {
                     videoPath = data.videoPath;
-                    if (videoPath && videoPath.type.startsWith('video/')) {
-                        console.log('File accepted:', videoPath);
-                        setSelectedFile(videoPath);
-                        const url = URL.createObjectURL(videoPath);
+                    try {
+                        const fileObject = await getFileFromUrl(videoPath);
+                        console.log('File object created:', fileObject);
+                        setSelectedFile(fileObject);
+                        const url = URL.createObjectURL(fileObject);
                         setPreviewUrl(url);
                         console.log('Preview URL generated:', url);
-                    } else {
-                        alert('Could not find skeleton file.');
+                    } catch (error) {
+                        console.error('Error converting URL to file:', error);
                     }
                 })
                 .catch((error) => {
