@@ -10,6 +10,9 @@ function MoveCreator() {
     const { moves, addMove } = useDanceData();
     const [title, setTitle] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const [uploadedFile, setUploadedFile] = useState(null);
+    const [uploadUrl, setUploadUrl] = useState(null);
+    const [uploadVideoDuration, setUploadVideoDuration] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [videoDuration, setVideoDuration] = useState(null);
     const [poseModel, setPoseModel] = useState(null);
@@ -63,6 +66,12 @@ function MoveCreator() {
     };
 
     const handleFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setUploadedFile(file);
+            const url = URL.createObjectURL(file);
+            setUploadUrl(url);
+        }
         const file = e.target.files[0];
         console.log('File selected:', file);
         handleFileSelect(file);
@@ -272,8 +281,7 @@ function MoveCreator() {
         
         const moveData = {
             name: title || selectedFile.name,
-            videoUrl: previewUrl,
-            file: selectedFile,
+            videoUrl: previewUrl, 
             duration: videoDuration,
             // Additional metadata can be added here
         };
