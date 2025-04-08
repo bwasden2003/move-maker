@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './VideoTimeline.css';
 
-function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTrim, onTimeChange, totalDuration = 10 }) {
+function VideoTimeline({ 
+  timelineMoves = [], 
+  onMoveAdd, 
+  onMoveReorder, 
+  onMoveTrim, 
+  onTimeChange, 
+  totalDuration = 10,
+  currentTime = 0 
+}) {
   const [draggingMoveIndex, setDraggingMoveIndex] = useState(null);
   const [isDraggingOverTimeline, setIsDraggingOverTimeline] = useState(false);
   const [isRepositioning, setIsRepositioning] = useState(false);
@@ -9,6 +17,7 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
   
   const timelineRef = useRef(null);
   const movesContainerRef = useRef(null);
+  const playheadRef = useRef(null);
   const [gridSeconds, setGridSeconds] = useState(10);
   const secondWidth = 100; // Width in pixels for 1 second on timeline
 
@@ -25,6 +34,13 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
     // Ensure we have at least 10 seconds or the total duration, whichever is greater
     setGridSeconds(Math.max(10, Math.ceil(totalDuration)));
   }, [totalDuration]);
+  
+  // Update playhead position based on currentTime
+  useEffect(() => {
+    if (playheadRef.current) {
+      playheadRef.current.style.left = `${currentTime * secondWidth}px`;
+    }
+  }, [currentTime, secondWidth]);
 
   const calculateMoveStyle = (move, index) => {
     const left = (move.startTime || 0) * secondWidth;
@@ -38,6 +54,37 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
       height: '80px',
       zIndex: draggingMoveIndex === index || resizingMoveIndex === index ? 10 : 1
     };
+  };
+  
+  // Snap to nearest move or grid position
+  const snapToNearestMove = (time) => {
+    const snapThreshold = 0.3; // Snap if within 0.3 seconds
+    
+    // First check if we should snap to the end of another move
+    let closestEndTime = null;
+    let minDistance = snapThreshold;
+    
+    // Check for snap to end of another move
+    for (const move of timelineMoves) {
+      const moveEnd = (move.startTime || 0) + move.duration;
+      const distance = Math.abs(time - moveEnd);
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestEndTime = moveEnd;
+      }
+    }
+    
+    // Check for snap to grid (every 0.5 seconds)
+    const gridTime = Math.round(time * 2) / 2; // Round to nearest 0.5
+    const gridDistance = Math.abs(time - gridTime);
+    
+    if (gridDistance < minDistance) {
+      minDistance = gridDistance;
+      closestEndTime = gridTime;
+    }
+    
+    return closestEndTime !== null ? closestEndTime : time;
   };
 
   const handleDrop = (e) => {
@@ -56,11 +103,14 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
       const move = JSON.parse(moveData);
       const timelineRect = timelineRef.current.getBoundingClientRect();
       const dropX = e.clientX - timelineRect.left;
-      const dropTimePosition = (dropX / secondWidth).toFixed(2);
+      let dropTimePosition = parseFloat((dropX / secondWidth).toFixed(2));
+      
+      // Snap to nearest move if applicable
+      dropTimePosition = snapToNearestMove(dropTimePosition);
       
       onMoveAdd({
         ...move,
-        startTime: parseFloat(dropTimePosition),
+        startTime: dropTimePosition,
         id: move.id || `move-${Date.now()}`
       });
     } catch (err) {
@@ -120,9 +170,12 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
     
     const timelineRect = timelineRef.current.getBoundingClientRect();
     const dropX = e.clientX - timelineRect.left;
-    const newStartTime = Math.max(0, (dropX / secondWidth).toFixed(2));
+    let newStartTime = Math.max(0, parseFloat((dropX / secondWidth).toFixed(2)));
     
-    onMoveReorder(index, parseFloat(newStartTime));
+    // Apply snapping
+    newStartTime = snapToNearestMove(newStartTime);
+    
+    onMoveReorder(index, newStartTime);
   };
 
   // Updated resize start using ref
@@ -146,7 +199,7 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
     document.addEventListener('mouseup', handleResizeEnd);
   };
 
-  // Updated resize move using ref values
+  // Updated resize move using ref values and adding snapping
   const handleResizeMove = (e) => {
     const { moveIndex, startX, originalDuration, originalStartTime, handleType } = resizeDataRef.current;
     if (moveIndex === null || startX === null) return;
@@ -160,15 +213,29 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
     
     if (handleType === 'right') {
       // For right handle, update duration only
-      const newDuration = Math.max(0.1, Math.min(maxDuration, originalDuration + timeDelta));
+      let newDuration = Math.max(0.1, Math.min(maxDuration, originalDuration + timeDelta));
+      
+      // Snap the end time if appropriate
+      const endTime = originalStartTime + newDuration;
+      const snappedEndTime = snapToNearestMove(endTime);
+      
+      if (endTime !== snappedEndTime) {
+        newDuration = Math.max(0.1, snappedEndTime - originalStartTime);
+      }
+      
       onMoveTrim(moveIndex, newDuration);
     } else if (handleType === 'left') {
       // For left handle, adjust start time and duration while keeping the end fixed
       const originalEndTime = originalStartTime + originalDuration;
       let newStartTime = originalStartTime + timeDelta;
+      
+      // Apply snapping to the start time
+      newStartTime = snapToNearestMove(newStartTime);
+      
       newStartTime = Math.max(originalEndTime - maxDuration, newStartTime);
       newStartTime = Math.max(0, newStartTime);
       const newDuration = Math.max(0.1, originalEndTime - newStartTime);
+      
       onMoveReorder(moveIndex, newStartTime);
       onMoveTrim(moveIndex, newDuration);
     }
@@ -219,6 +286,22 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
       </div>
     ));
   };
+  
+  // Highlight the currently active move (if any)
+  const getCurrentMove = () => {
+    for (let i = 0; i < timelineMoves.length; i++) {
+      const move = timelineMoves[i];
+      const moveStart = move.startTime || 0;
+      const moveEnd = moveStart + move.duration;
+      
+      if (currentTime >= moveStart && currentTime < moveEnd) {
+        return i;
+      }
+    }
+    return -1;
+  };
+  
+  const currentMoveIndex = getCurrentMove();
 
   return (
     <div className="video-timeline">
@@ -254,8 +337,12 @@ function VideoTimeline({ timelineMoves = [], onMoveAdd, onMoveReorder, onMoveTri
             {timelineMoves.map((move, index) => (
               <div 
                 key={`${move.id}-${index}`} 
-                className="video-clip"
-                style={calculateMoveStyle(move, index)}
+                className={`video-clip ${index === currentMoveIndex ? 'video-clip-active' : ''}`}
+                style={{
+                  ...calculateMoveStyle(move, index),
+                  borderColor: index === currentMoveIndex ? '#ff9900' : 'transparent',
+                  boxShadow: index === currentMoveIndex ? '0 0 8px rgba(255, 153, 0, 0.6)' : 'none'
+                }}
                 draggable={resizingMoveIndex !== index}
                 onDragStart={(e) => handleMoveDragStart(e, index)}
                 onDragEnd={() => {

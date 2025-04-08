@@ -36,6 +36,9 @@ const DanceCreation = () => {
   // Track if playback is active
   const [isPlaying, setIsPlaying] = useState(false);
   
+  // Current active move
+  const [currentMove, setCurrentMove] = useState(null);
+  
   // Calculate total duration of the timeline
   const totalDuration = timelineMoves.reduce((total, move) => {
     const endTime = (move.startTime || 0) + move.duration;
@@ -47,13 +50,26 @@ const DanceCreation = () => {
     move.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Get current playing move based on timeline
+  const getCurrentMove = (time) => {
+    for (const move of timelineMoves) {
+      const moveStart = move.startTime || 0;
+      const moveEnd = moveStart + move.duration;
+      if (time >= moveStart && time < moveEnd) {
+        return move;
+      }
+    }
+    return null;
+  };
+
   // Handle adding a move to the timeline
   const handleAddMove = (move) => {
     // Create a copy to avoid modifying the original move
     const newMove = {
       ...move,
       startTime: move.startTime || totalDuration, // Default to end of timeline if not specified
-      id: `${move.id}-${Date.now()}` // Ensure unique ID
+      id: `${move.id}-${Date.now()}`, // Ensure unique ID
+			videoUrl: move.videoUrl,
     };
     
     setTimelineMoves(prev => [...prev, newMove]);
@@ -155,6 +171,63 @@ const DanceCreation = () => {
       playhead.style.left = `${currentTime * 100}px`; // 100px per second
     }
   }, [currentTime]);
+  
+  // Update video source based on current time
+  useEffect(() => {
+    const move = getCurrentMove(currentTime);
+		setCurrentMove(move);
+
+		if (videoRef.current && move?.videoUrl) {
+			const video = videoRef.current;
+			const videoSource = move.videoUrl;
+
+			// Only change the source if it's different
+			if (video.getAttribute('src') !== videoSource) {
+				video.setAttribute('src', videoSource);
+				video.setAttribute('data-current-move', move.name);
+
+				const handleCanPlay = () => {
+					if (isPlaying) {
+						video.play().catch((err) => {
+							console.warn("Playback failed:", err);
+						});
+					}
+					video.removeEventListener('loadeddata', handleCanPlay);
+				};
+
+				video.addEventListener('loadeddata', handleCanPlay);
+				video.load();
+			}
+		}
+	}, [currentTime, timelineMoves, isPlaying]);
+
+  
+  // Handle end of video playback
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    
+    const handleVideoEnd = () => {
+      // Find the next move in the timeline
+      const nextMove = timelineMoves.find(move => 
+        (move.startTime || 0) > currentTime
+      );
+      
+      if (nextMove) {
+        // Move to the next clip
+        handleTimeChange(nextMove.startTime || 0);
+      } else {
+        // End of timeline reached
+        setIsPlaying(false);
+      }
+    };
+    
+    video.addEventListener('ended', handleVideoEnd);
+    
+    return () => {
+      video.removeEventListener('ended', handleVideoEnd);
+    };
+  }, [currentTime, timelineMoves]);
 
   return (
     <div className="dance-creation">
@@ -203,11 +276,13 @@ const DanceCreation = () => {
 
         <div className="dance-preview">
           <video 
-            ref={videoRef} 
-            className="dance-video" 
-            src="#" // Would be generated based on timeline in real implementation
-            poster="/api/placeholder/640/360" // Placeholder
-          />
+						key={currentMove ? currentMove.name : 'no-move'}
+						ref={videoRef} 
+						className="dance-video" 
+						src={currentMove ? currentMove.name : '#'}
+						poster="/api/placeholder/640/360"
+						controls={false}
+					/>
           <div className="video-controls">
             <button onClick={handleRewind} className="control-btn rewind-btn">⏪</button>
             <button onClick={handlePlayPause} className="control-btn play-btn">
@@ -218,6 +293,12 @@ const DanceCreation = () => {
               {currentTime.toFixed(1)}s / {Math.max(0.1, totalDuration).toFixed(1)}s
             </div>
           </div>
+          
+          {currentMove && (
+            <div className="current-move-indicator">
+              Now Playing: {currentMove.name}
+            </div>
+          )}
         </div>
       </div>
 
@@ -229,6 +310,7 @@ const DanceCreation = () => {
           onMoveTrim={handleMoveTrim}
           onTimeChange={handleTimeChange}
           totalDuration={totalDuration}
+          currentTime={currentTime}
         />
         <div className="timeline-actions">
           <button className="add-audio-btn">🎵 Add Audio</button>
