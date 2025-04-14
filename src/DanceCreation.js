@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import VideoTimeline from './VideoTimeline';
-import { useDanceData } from './DanceDataContext';
+import { useMoveData } from './MoveContext';
+import { useDanceContext } from './DanceContext';
+import { useNavigate } from 'react-router-dom';
 import './DanceCreation.css';
 
 // Sample move icons - in a real implementation, these would be thumbnails
@@ -14,20 +16,43 @@ const moveIcons = {
   'Jump': '⬆️',
 };
 
-const DanceCreation = () => {
-  // Available moves in the library
-  const { moves: availableMoves } = useDanceData();
+// Default dance image
+const DEFAULT_DANCE_IMAGE = './DancingDude.png';
 
-  // Moves placed on the timeline
-  const [timelineMoves, setTimelineMoves] = useState([]);
+const DanceCreation = () => {
+  const navigate = useNavigate();
+  const { danceId } = useParams(); // Get danceId from URL if editing an existing dance
+  
+  const {
+    dances,
+    currentDance,
+    updateDanceTitle,
+    addMoveToTimeline,
+    insertMoveInTimeline, 
+    deleteMoveFromTimeline,
+    clearTimeline,
+    saveDance,
+    createNewDance,
+    loadDance
+  } = useDanceContext();
+
+  // Metadata modal state
+  const [showMetadataModal, setShowMetadataModal] = useState(false);
+  const [danceMetadata, setDanceMetadata] = useState({
+    artist: '',
+    difficulty: 'Medium',
+    img: DEFAULT_DANCE_IMAGE
+  });
+
+  const { title: projectTitle, timelineMoves } = currentDance;
+
+  // Available moves in the library
+  const { moves: availableMoves } = useMoveData();
   
   // Current playback index and time
   const [currentMoveIndex, setCurrentMoveIndex] = useState(-1);
   const [currentTime, setCurrentTime] = useState(0);
   const [totalElapsedTime, setTotalElapsedTime] = useState(0);
-  
-  // Project title
-  const [projectTitle, setProjectTitle] = useState('New Dance Project');
   
   // Search term for filtering moves
   const [searchTerm, setSearchTerm] = useState('');
@@ -41,6 +66,31 @@ const DanceCreation = () => {
   // Calculate total duration of the timeline
   const totalDuration = timelineMoves.reduce((total, move) => total + move.duration, 0);
 
+  // Initialize or load dance on mount
+  useEffect(() => {
+    if (danceId) {
+      // Try to load existing dance
+      const success = loadDance(danceId);
+      if (!success) {
+        // If dance not found, create a new one
+        createNewDance();
+      } else {
+        // If the dance has metadata, load it into the state
+        const existingDance = dances.find(dance => dance.id === danceId);
+        if (existingDance && existingDance.metadata) {
+          setDanceMetadata({
+            artist: existingDance.metadata.artist || '',
+            difficulty: existingDance.metadata.difficulty || 'Medium',
+            img: existingDance.metadata.img || DEFAULT_DANCE_IMAGE
+          });
+        }
+      }
+    } else {
+      // No danceId, create a new dance project
+      createNewDance();
+    }
+  }, [danceId]); // Only run when danceId changes
+
   // Filter moves based on search term
   const filteredMoves = availableMoves.filter(move => 
     move.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -48,29 +98,12 @@ const DanceCreation = () => {
 
   // Handle adding a move to the end of the timeline
   const handleAddMove = (move) => {
-    // Create a copy to avoid modifying the original move
-    const newMove = {
-      ...move,
-      id: `${move.id}-${Date.now()}`, // Ensure unique ID
-      videoUrl: move.videoUrl,
-    };
-    
-    setTimelineMoves(prev => [...prev, newMove]);
+    addMoveToTimeline(move);
   };
 
   // Handle inserting a move at a specific position
   const handleInsertMove = (move, index) => {
-    const newMove = {
-      ...move,
-      id: `${move.id}-${Date.now()}`,
-      videoUrl: move.videoUrl,
-    };
-    
-    setTimelineMoves(prev => {
-      const newMoves = [...prev];
-      newMoves.splice(index, 0, newMove);
-      return newMoves;
-    });
+    insertMoveInTimeline(move, index);
     
     // Adjust current index if we inserted before the currently playing move
     if (currentMoveIndex >= index && currentMoveIndex !== -1) {
@@ -80,11 +113,7 @@ const DanceCreation = () => {
 
   // Handle deleting a move from the timeline
   const handleDeleteMove = (index) => {
-    setTimelineMoves(prev => {
-      const newMoves = [...prev];
-      newMoves.splice(index, 1);
-      return newMoves;
-    });
+    deleteMoveFromTimeline(index);
     
     // If the deleted move was currently playing, reset
     if (currentMoveIndex === index) {
@@ -186,7 +215,6 @@ const DanceCreation = () => {
     }
   };
 
-
   // Handle video playback controls
   const handlePlayPause = () => {
     if (timelineMoves.length === 0) {
@@ -268,7 +296,7 @@ const DanceCreation = () => {
 
   // Clear the timeline
   const handleClearTimeline = () => {
-    setTimelineMoves([]);
+    clearTimeline();
     setCurrentMoveIndex(-1);
     setCurrentTime(0);
     setTotalElapsedTime(0);
@@ -276,6 +304,45 @@ const DanceCreation = () => {
     if (videoRef.current) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
+    }
+  };
+
+  // Open metadata modal and pre-fill if editing existing dance
+  const handleOpenSaveDialog = () => {
+    if (timelineMoves.length === 0 || !projectTitle.trim()) {
+      alert("Please add at least one move and give your dance a title before saving.");
+      return;
+    }
+    
+    // If editing an existing dance, pre-fill metadata
+    if (danceId) {
+      const existingDance = dances.find(dance => dance.id === danceId);
+      if (existingDance && existingDance.metadata) {
+        setDanceMetadata({
+          artist: existingDance.metadata.artist || '',
+          difficulty: existingDance.metadata.difficulty || 'Medium',
+          img: existingDance.metadata.img || DEFAULT_DANCE_IMAGE
+        });
+      }
+    }
+    
+    setShowMetadataModal(true);
+  };
+
+  // Save dance with metadata
+  const handleSaveAndExport = () => {
+    // Add metadata to the current dance
+    const danceWithMetadata = {
+      ...currentDance,
+      metadata: danceMetadata
+    };
+    
+    // Save through context
+    if (saveDance(danceWithMetadata)) {
+      setShowMetadataModal(false);
+      navigate('/dance-bank');
+    } else {
+      alert("There was an error saving your dance.");
     }
   };
 
@@ -347,6 +414,9 @@ const DanceCreation = () => {
     };
   }, [currentMoveIndex, timelineMoves]);
 
+  // Available difficulty options
+  const difficultyOptions = ["Easy", "Medium", "Hard", "Extreme", "Custom"];
+
   return (
     <div className="dance-creation">
       <div className="header">
@@ -356,11 +426,11 @@ const DanceCreation = () => {
         <input 
           type="text" 
           value={projectTitle}
-          onChange={(e) => setProjectTitle(e.target.value)}
+          onChange={(e) => updateDanceTitle(e.target.value)}
           placeholder="Project Title" 
           className="project-title-input" 
         />
-        <button className="next-btn">Save & Export →</button>
+        <button className="next-btn" onClick={handleOpenSaveDialog}>Save & Export →</button>
       </div>
 
       <div className="content">
@@ -458,6 +528,62 @@ const DanceCreation = () => {
           </button>
         </div>
       </div>
+
+      {/* Metadata Modal */}
+      {showMetadataModal && (
+        <div className="metadata-modal-overlay">
+          <div className="metadata-modal">
+            <h2>Dance Details</h2>
+            <div className="form-group">
+              <label>Artist/Creator:</label>
+              <input
+                type="text"
+                value={danceMetadata.artist}
+                onChange={(e) => setDanceMetadata({...danceMetadata, artist: e.target.value})}
+                placeholder="Enter artist or creator name"
+              />
+            </div>
+            <div className="form-group">
+              <label>Difficulty:</label>
+              <select
+                value={danceMetadata.difficulty}
+                onChange={(e) => setDanceMetadata({...danceMetadata, difficulty: e.target.value})}
+              >
+                {difficultyOptions.map(option => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Dance Image:</label>
+              <div className="image-options">
+                <div 
+                  className={`image-option ${danceMetadata.img === './DancingDude.png' ? 'selected' : ''}`}
+                  onClick={() => setDanceMetadata({...danceMetadata, img: './DancingDude.png'})}
+                >
+                  <img src="./DancingDude.png" alt="Dancing Dude" />
+                </div>
+                <div 
+                  className={`image-option ${danceMetadata.img === './DancingLady.png' ? 'selected' : ''}`}
+                  onClick={() => setDanceMetadata({...danceMetadata, img: './DancingLady.png'})}
+                >
+                  <img src="./DancingLady.png" alt="Dancing Lady" />
+                </div>
+                <div 
+                  className={`image-option ${danceMetadata.img === './CustomDance.png' ? 'selected' : ''}`}
+                  onClick={() => setDanceMetadata({...danceMetadata, img: './CustomDance.png'})}
+                >
+                  <img src="./CustomDance.png" alt="Custom Dance" />
+                </div>
+              </div>
+            </div>
+            <div className="modal-buttons">
+              <button onClick={() => setShowMetadataModal(false)} className="cancel-btn">Cancel</button>
+              <button onClick={handleSaveAndExport} className="save-btn">Save Dance</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
