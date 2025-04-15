@@ -11,7 +11,7 @@
     height: 15vh;
 }
 
-.HomeButtonPlus {
+.HomeButtonPlus{
     background-color: #ffffff;
     border-radius: 10px;
     border-color: #335345;
@@ -36,66 +36,102 @@
     padding-bottom: 15px;
 }
 
-.SortAndFilter {
-    position: sticky;
-    margin: 1rem 2rem;
-    background-color: #E3CBA5;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-.SearchBox {
-    margin-bottom: 15px;
-}
-
-.SearchBox input {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #335345;
-    border-radius: 10px;
-    font-size: 16px;
-    font-family: "PT Sans Caption", sans-serif;
-    color: #335345;
-}
-
-.Filters {
-    margin-bottom: 10px;
-}
-
-.DifficultyHeader {
-    margin-bottom: 10px;
-    font-size: 24px;
-    color: #335345;
-    font-family: "PT Sans Caption", sans-serif;
-    font-weight: 700;
-}
-
-.Difficulty {
+.SearchFilterWrapper {
     display: flex;
-    flex-direction: column;
-    padding-left: 20px;
+        flex-direction: row;
+    height: calc(100vh - 15vh - 2rem); 
+    margin: 45px;
+    gap: 20px;
 }
 
-.Difficulty label {
+.SortAndFilter {
+    width: 250px; 
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.SearchBox {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+  
+.SearchInput {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+  
+.FiltersContainer {
+    display: flex;
+        flex-direction: column;
+    gap: 20px;
+}
+  
+.FilterGroup {
+    display: flex;
+        flex-direction: column;
+    background-color: rgba(128, 128, 128, 0.2);
+}
+  
+
+
+.FilterTagGroup {
+    display: grid;
+    background-color: rgba(128, 128, 128, 0.2);
+    flex-grow: 1;
+    grid-template-columns: repeat(auto-fill, minmax(100px, auto)); 
+    gap: 10px; 
+    max-height: 300px; 
+    overflow-y: auto; 
+}
+
+.FilterTagOption {
+    display: inline-flex;  
+    align-items: center;
+    justify-content: center; 
+    padding: 8px 20px; 
+    background-color: #162e1c; 
+    border-radius: 8px; 
+    color: white;
+    cursor: pointer;
+    font-size: 16px; 
+}
+
+.FilterHeader {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #335345;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+  
+.FilterOption {
     display: flex;
     align-items: center;
+    margin-bottom: 8px;
     cursor: pointer;
-    font-family: "PT Sans Caption", sans-serif;
-    color: #335345;
-    font-size: 18px;
-    margin-bottom: 5px;
 }
-
-.Difficulty input {
-    margin-right: 5px;
+ 
+  
+.FilterLabel {
+    font-size: 16px;
+    color: #ffffff;
 }
 
 .Dances {
+    flex-grow: 1;
+    overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 2fr));
     gap: 15px;
     padding: 20px;
-    justify-content: center;
+    background-color: #fff;
+    border-radius: 10px;
+    min-height: 0;
 }
 
 .DanceCard {
@@ -103,7 +139,7 @@
     border-radius: 10px;
     padding: 15px;
     display: flex;
-    flex-direction: column;
+        flex-direction: column;
     justify-content: space-between;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     position: relative;
