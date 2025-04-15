@@ -6,6 +6,7 @@ import HomeScreen from './HomeScreen';
 import DanceCreation from './DanceCreation';
 import DanceBank from "./DanceBank";
 import MoveCreator from './MoveCreator'
+import MoveBank from "./MoveBank";
 import './App.css';
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
             <Route path="/move-creator" element={<MoveCreator />} />
             <Route path="/dance-bank" element={<DanceBank />} />
             <Route path="/dance-creator" element={<DanceCreation />} />
+            <Route path="/create/:danceId" element={<DanceCreation />} />
+            <Route path="/move-bank" element={<MoveBank />} />
             {/* Add other routes as needed */}
           </Routes>
         </HashRouter>

@@ -8,7 +8,7 @@ function DanceBank() {
     const [difficultyFilter, setDifficultyFilter] = useState([]);
     
     // Use the dance context
-    const { dances, loadDance } = useDanceContext();
+    const { dances, loadDance, deleteDance } = useDanceContext();
     
     // Helper function to format time in mm:ss format
     const formatTime = (seconds) => {
@@ -134,9 +134,8 @@ function DanceBank() {
 
             <div className="Dances">
                 {filteredDances.map((dance, i) => (
-                    <Link
+                    <div
                         key={i}
-                        to={dance.isCustom ? `/create/${encodeURIComponent(dance.id)}` : `/dance-bank/${encodeURIComponent(dance.title)}`}
                         className="DanceCard"
                         onClick={() => handleDanceClick(dance)}
                     >
@@ -147,7 +146,24 @@ function DanceBank() {
                             <p>{dance.difficulty}</p>
                             <p>{dance.time}</p>
                         </div>
-                    </Link>
+                        
+                        {dance.isCustom && (
+                            <div className="MoveActions">
+                            <Link to={`/create/${encodeURIComponent(dance.id)}`} className="EditButton">Edit</Link>
+                            <button 
+                                className="DeleteButton"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if(window.confirm("Are you sure you want to delete this move?")) {
+                                        deleteDance(dance.id);
+                                    }
+                                }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                        )}
+                    </div>
                 ))}
                 
                 {filteredDances.length === 0 && (

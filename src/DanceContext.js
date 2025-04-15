@@ -183,11 +183,6 @@ export const DanceProvider = ({ children }) => {
   // Delete a dance from the collection
   const deleteDance = (danceId) => {
     setDances(dances.filter(dance => dance.id !== danceId));
-    
-    // If the current dance is being deleted, create a new one
-    if (currentDance.id === danceId) {
-      createNewDance();
-    }
   };
 
   return (
