@@ -174,6 +174,7 @@ function DanceBank() {
                 )}
             </div>
         </div>
+        </div>
     );
 }
 

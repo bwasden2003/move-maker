@@ -68,7 +68,7 @@
 .FiltersContainer {
     display: flex;
         flex-direction: column;
-    gap: 20px;
+    gap: 5px;
 }
   
 .FilterGroup {
@@ -85,7 +85,7 @@
     flex-grow: 1;
     grid-template-columns: repeat(auto-fill, minmax(100px, auto)); 
     gap: 10px; 
-    max-height: 300px; 
+    max-height: 150px; 
     overflow-y: auto; 
 }
 
