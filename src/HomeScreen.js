@@ -12,9 +12,9 @@ function HomeScreen() {
       </div>
       <div className="buttonandimg">
           <div className="ButtonContainer">
-              <button className="Buttons">Browse</button>
               <Link to="/dance-bank" className="Buttons">Dance Bank</Link>
               <Link to="/dance-creator" className="Buttons">Dance Creator</Link>
+              <Link to="/move-bank" className="Buttons">Move Bank</Link>
               <Link to="/move-creator" className="Buttons">Move Creator</Link>
           </div>
           <img class="HomeImage" src={DancingDude} alt="homepage image"	/>

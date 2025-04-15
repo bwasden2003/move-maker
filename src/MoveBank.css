@@ -1,4 +1,4 @@
-/* DanceBank.css */
+/* MoveBank.css */
 @import url('https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,300..800;1,300..800&family=PT+Sans+Caption:wght@400;700&display=swap');
 
 .NavBar {
@@ -11,7 +11,7 @@
     height: 15vh;
 }
 
-.HomeButtonPlus{
+.HomeButtonPlus {
     background-color: #ffffff;
     border-radius: 10px;
     border-color: #335345;
@@ -36,129 +36,111 @@
     padding-bottom: 15px;
 }
 
-.SearchFilterWrapper {
-    display: flex;
-        flex-direction: row;
-    height: calc(100vh - 15vh - 2rem); 
-    margin: 45px;
-    gap: 20px;
-}
-
 .SortAndFilter {
-    width: 250px; 
-    padding: 20px;
-    background-color: #f8f8f8;
+    position: sticky;
+    margin: 1rem 2rem;
+    background-color: #E3CBA5;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
-  
+
 .SearchBox {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
-  
-.SearchInput {
+
+.SearchBox input {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-}
-  
-.FiltersContainer {
-    display: flex;
-        flex-direction: column;
-    gap: 20px;
-}
-  
-.FilterGroup {
-    display: flex;
-        flex-direction: column;
-    background-color: rgba(128, 128, 128, 0.2);
-}
-  
-
-
-.FilterTagGroup {
-    display: grid;
-    background-color: rgba(128, 128, 128, 0.2);
-    flex-grow: 1;
-    grid-template-columns: repeat(auto-fill, minmax(100px, auto)); 
-    gap: 10px; 
-    max-height: 300px; 
-    overflow-y: auto; 
-}
-
-.FilterTagOption {
-    display: inline-flex;  
-    align-items: center;
-    justify-content: center; 
-    padding: 8px 20px; 
-    background-color: #162e1c; 
-    border-radius: 8px; 
-    color: white;
-    cursor: pointer;
-    font-size: 16px; 
-}
-
-.FilterHeader {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #335345;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 5px;
-}
-  
-.FilterOption {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-    cursor: pointer;
-}
- 
-  
-.FilterLabel {
+    padding: 10px;
+    border: 2px solid #335345;
+    border-radius: 10px;
     font-size: 16px;
-    color: #ffffff;
+    font-family: "PT Sans Caption", sans-serif;
+    color: #335345;
 }
 
-.Dances {
-    flex-grow: 1;
-    overflow-y: auto;
+.Filters {
+    margin-bottom: 10px;
+}
+
+.CategoryHeader {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #335345;
+    font-family: "PT Sans Caption", sans-serif;
+    font-weight: 700;
+}
+
+.Categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-left: 20px;
+}
+
+.Categories label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: "PT Sans Caption", sans-serif;
+    color: #335345;
+    font-size: 18px;
+}
+
+.Categories input {
+    margin-right: 5px;
+}
+
+.Moves {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 2fr));
     gap: 15px;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    min-height: 0;
+    justify-content: center;
 }
 
-.DanceCard {
+.MoveCard {
     background: #94a094;
     border-radius: 10px;
     padding: 15px;
     display: flex;
-        flex-direction: column;
+    flex-direction: column;
     justify-content: space-between;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     position: relative;
     border: 2px solid black;
     transition: transform 0.2s ease-in-out;
-    text-decoration: none;
 }
 
-.DanceCard:hover {
+.MoveCard:hover {
     transform: translateY(-5px);
 }
 
-.DanceImage {
-    width: 100%;
+.MoveVideoPreview {
     height: 160px;
-    object-fit: cover;
+    background-color: #335345;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
     border-radius: 5px;
     margin-bottom: 10px;
-    background-color: #335345;
+}
+
+.MoveVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.NoVideoPlaceholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: #E3CBA5;
+    font-style: italic;
+    font-family: "PT Sans Caption", sans-serif;
 }
 
 .Info {
@@ -179,19 +161,6 @@
     color: white;
     font-size: 16px;
     font-family: "PT Sans Caption", sans-serif;
-}
-
-.NoDances {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 40px;
-    color: #335345;
-    font-style: italic;
-    font-family: "PT Sans Caption", sans-serif;
-    font-size: 24px;
-    background-color: #E3CBA5;
-    border-radius: 10px;
-    margin: 20px;
 }
 
 .MoveActions {
@@ -225,4 +194,17 @@
     background-color: #E3CBA5;
     color: #335345;
     flex: 1;
+}
+
+.NoMoves {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #335345;
+    font-style: italic;
+    font-family: "PT Sans Caption", sans-serif;
+    font-size: 24px;
+    background-color: #E3CBA5;
+    border-radius: 10px;
+    margin: 20px;
 }

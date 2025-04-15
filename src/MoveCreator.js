@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDanceData } from './DanceDataContext';
+import { useMoveData } from './MoveContext';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
 import './MoveCreator.css';
 
 function MoveCreator() {
-    const { moves, addMove } = useDanceData();
+    const { moves, addMove } = useMoveData();
     const [title, setTitle] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadedFile, setUploadedFile] = useState(null);

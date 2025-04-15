@@ -1,9 +1,12 @@
+/* DanceCreation.css */
+@import url('https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,300..800;1,300..800&family=PT+Sans+Caption:wght@400;700&display=swap');
+
 .dance-creation {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: #f4f4f4;
-    font-family: Arial, sans-serif;
+    background-color: #f9f5f0;
+    font-family: "PT Sans Caption", sans-serif;
 }
 
 .header {
@@ -13,6 +16,8 @@
     padding: 12px 20px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 1rem 2rem 0 2rem;
+    border-radius: 10px;
 }
 
 .home-btn,
@@ -20,18 +25,22 @@
     display: flex;
     align-items: center;
     padding: 8px 16px;
-    background-color: #4F7342;
+    background-color: #8D4E2C;
+    /* Changed to match your color scheme */
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-family: "PT Sans Caption", sans-serif;
+    font-weight: bold;
 }
 
 .home-btn:hover,
 .next-btn:hover {
-    background-color: #3A5530;
+    background-color: #6a3922;
+    /* Darker shade for hover */
 }
 
 .home-icon {
@@ -42,9 +51,13 @@
     flex-grow: 1;
     margin: 0 20px;
     padding: 8px 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 2px solid #335345;
+    /* Changed to match your color scheme */
+    border-radius: 10px;
     font-size: 16px;
+    font-family: "PT Sans Caption", sans-serif;
+    color: #335345;
+    /* Changed to match your color scheme */
 }
 
 .content {
@@ -53,31 +66,39 @@
     padding: 20px;
     gap: 20px;
     overflow: hidden;
+    margin: 0 2rem;
 }
 
 .moves-library {
     width: 250px;
     min-width: 250px;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 15px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #335345;
+    /* Added to match your style */
 }
 
 .moves-library h3 {
     margin-top: 0;
     margin-bottom: 15px;
-    color: #4F7342;
+    color: #335345;
+    /* Changed to match your color scheme */
+    font-family: "PT Sans Caption", sans-serif;
+    font-weight: 700;
 }
 
 .moves-search input {
     width: 100%;
     padding: 8px 12px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #335345;
+    /* Changed to match your color scheme */
+    border-radius: 10px;
+    font-family: "PT Sans Caption", sans-serif;
 }
 
 .moves-grid {
@@ -93,20 +114,26 @@
     flex-direction: column;
     align-items: center;
     padding: 12px 8px;
-    background-color: #f0f0f0;
-    border-radius: 6px;
+    background-color: #E3CBA5;
+    /* Changed to match your color scheme */
+    border-radius: 10px;
     cursor: grab;
     transition: all 0.2s;
+    border: 1px solid #335345;
+    /* Added to match your style */
 }
 
 .move-item:hover {
-    background-color: #e0e0e0;
+    background-color: #d3bbaa;
+    /* Darker shade for hover */
     transform: translateY(-2px);
 }
 
 .move-icon {
     font-size: 24px;
     margin-bottom: 6px;
+    color: #335345;
+    /* Changed to match your color scheme */
 }
 
 .move-name {
@@ -114,11 +141,14 @@
     font-size: 12px;
     text-align: center;
     margin-bottom: 4px;
+    color: #335345;
+    /* Changed to match your color scheme */
 }
 
 .move-duration {
     font-size: 11px;
-    color: #666;
+    color: #8D4E2C;
+    /* Changed to match your color scheme */
 }
 
 .dance-preview {
@@ -128,19 +158,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 20px;
-		position: relative;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 2px solid #335345;
+    /* Added to match your style */
 }
 
 .dance-video {
-		width: 100%;
-		height: 100%;
+    width: 100%;
+    height: 100%;
     background-color: #222;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 
 .video-controls {
@@ -151,7 +183,8 @@
 }
 
 .control-btn {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(51, 83, 69, 0.5);
+    /* Changed to match your color scheme */
     border: none;
     width: 40px;
     height: 40px;
@@ -166,13 +199,21 @@
 }
 
 .control-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(51, 83, 69, 0.7);
+    /* Changed to match your color scheme */
 }
 
 .play-btn {
     width: 50px;
     height: 50px;
     font-size: 22px;
+    background: rgba(141, 78, 44, 0.7);
+    /* Changed to match your color scheme */
+}
+
+.play-btn:hover {
+    background: rgba(141, 78, 44, 0.9);
+    /* Changed to match your color scheme */
 }
 
 .playback-time {
@@ -185,6 +226,10 @@
     background-color: #fff;
     padding: 15px 20px;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 2rem 1rem 2rem;
+    border-radius: 10px;
+    border: 2px solid #335345;
+    /* Added to match your style */
 }
 
 .timeline-actions {
@@ -196,23 +241,173 @@
 .add-audio-btn,
 .clear-timeline-btn {
     padding: 8px 15px;
-    background-color: #f0f0f0;
+    background-color: #E3CBA5;
+    /* Changed to match your color scheme */
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 6px;
     transition: background-color 0.2s;
+    font-family: "PT Sans Caption", sans-serif;
+    color: #335345;
+    /* Changed to match your color scheme */
 }
 
 .add-audio-btn:hover,
 .clear-timeline-btn:hover {
-    background-color: #e0e0e0;
+    background-color: #d3bbaa;
+    /* Darker shade for hover */
 }
 
 .clear-timeline-btn {
-    color: #d32f2f;
+    color: #8D4E2C;
+    /* Changed to match your color scheme */
+}
+
+.metadata-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Modal container */
+.metadata-modal {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: "PT Sans Caption", sans-serif;
+}
+
+.metadata-modal h2 {
+    margin-top: 0;
+    color: #335345;
+    /* Changed to match your color scheme */
+    border-bottom: 1px solid #E3CBA5;
+    /* Changed to match your color scheme */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Form groups */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #335345;
+    /* Changed to match your color scheme */
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #94a094;
+    /* Changed to match your color scheme */
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: "PT Sans Caption", sans-serif;
+}
+
+/* Image selection grid */
+.image-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.image-option {
+    border: 2px solid #94a094;
+    /* Changed to match your color scheme */
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.image-option.selected {
+    border-color: #8D4E2C;
+    /* Changed to match your color scheme */
+    box-shadow: 0 0 0 2px rgba(141, 78, 44, 0.3);
+    /* Changed to match your color scheme */
+}
+
+.image-option img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Modal buttons */
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: "PT Sans Caption", sans-serif;
+}
+
+.cancel-btn {
+    background-color: #E3CBA5;
+    /* Changed to match your color scheme */
+    border: 1px solid #335345;
+    /* Changed to match your color scheme */
+    color: #335345;
+    /* Changed to match your color scheme */
+}
+
+.save-btn {
+    background-color: #8D4E2C;
+    /* Changed to match your color scheme */
+    border: none;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #d3bbaa;
+    /* Darker shade for hover */
+}
+
+.save-btn:hover {
+    background-color: #6a3922;
+    /* Darker shade for hover */
+}
+
+/* Custom badge for user-created dances */
+.CustomBadge {
+    display: inline-block;
+    background-color: #335345;
+    /* Changed to match your color scheme */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
 }
 
 /* Responsive styles */
