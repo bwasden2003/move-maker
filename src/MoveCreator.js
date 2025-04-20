@@ -18,6 +18,7 @@ function MoveCreator() {
     const [poseModel, setPoseModel] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [processingProgress, setProcessingProgress] = useState(0);
+    const [isReadyToSave, setIsReadyToSave] = useState(false);
     
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
@@ -58,6 +59,15 @@ function MoveCreator() {
         };
     }, []);
 
+    // Update isReadyToSave when relevant states change
+    useEffect(() => {
+        if (selectedFile && previewUrl && !isProcessing) {
+            setIsReadyToSave(true);
+        } else {
+            setIsReadyToSave(false);
+        }
+    }, [selectedFile, previewUrl, isProcessing]);
+
     const handleDrop = (e) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
@@ -71,10 +81,8 @@ function MoveCreator() {
             setUploadedFile(file);
             const url = URL.createObjectURL(file);
             setUploadUrl(url);
+            handleFileSelect(file);
         }
-        const file = e.target.files[0];
-        console.log('File selected:', file);
-        handleFileSelect(file);
     };
 
     const handleFileSelect = (file) => {
@@ -280,14 +288,21 @@ function MoveCreator() {
         }
         
         const moveData = {
+            id: Date.now().toString(), // Generate a unique ID
             name: title || selectedFile.name,
             videoUrl: previewUrl, 
             duration: videoDuration,
+            createdAt: new Date().toISOString(),
             // Additional metadata can be added here
         };
         
         console.log('Saving move data:', moveData);
         addMove(moveData);
+        
+        // Show success message and optionally navigate somewhere
+        alert("Move saved successfully!");
+        // You could add navigation here if needed, e.g.:
+        // history.push('/moves');
     };
 
     return (
@@ -318,17 +333,32 @@ function MoveCreator() {
                             onDragOver={(e) => e.preventDefault()}
                             onDrop={handleDrop}
                         >
-                            <h2 className="MDragText">Drag and drop video here</h2>
-                            <h2 className="MOrText">OR</h2>
-                            <label htmlFor="file">Browse Files</label>
-                            <input 
-                                className="MChooseFile" 
-                                type="file" 
-                                id="file" 
-                                name="file" 
-                                accept="video/*" 
-                                onChange={handleFileChange}
-                            />
+                            {uploadUrl ? (
+                                <video 
+                                    className="MImportVideo"
+                                    src={uploadUrl}
+                                    controls
+                                    onLoadedMetadata={(e) => {
+                                        const duration = e.target.duration;
+                                        console.log('Original video duration:', duration);
+                                        setUploadVideoDuration(duration);
+                                    }}
+                                />
+                            ) : (
+                                <>
+                                    <h2 className="MDragText">Drag and drop video here</h2>
+                                    <h2 className="MOrText">OR</h2>
+                                    <label htmlFor="file">Browse Files</label>
+                                    <input 
+                                        className="MChooseFile" 
+                                        type="file" 
+                                        id="file" 
+                                        name="file" 
+                                        accept="video/*" 
+                                        onChange={handleFileChange}
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -344,9 +374,9 @@ function MoveCreator() {
                             </button>
                         )}
                         <button 
-                            className="MSaveButton" 
+                            className={isReadyToSave ? "MSaveButtonActive" : "MSaveButton"}
                             onClick={handleSave}
-                            disabled={!selectedFile || isProcessing}
+                            disabled={!isReadyToSave}
                         >
                             Save
                         </button>
@@ -370,19 +400,26 @@ function MoveCreator() {
                         )}
                         
                         {/* Preview the video if available */}
-                        {previewUrl && !isProcessing && (
-                            <video 
-                                ref={videoRef}
-                                controls 
-                                width="250" 
-                                height="250" 
-                                src={previewUrl} 
-                                onLoadedMetadata={(e) => {
-                                    const duration = e.target.duration;
-                                    console.log('Video duration:', duration);
-                                    setVideoDuration(duration);
-                                }}
-                            />
+                        {previewUrl && !isProcessing ? (
+                            <div className="MSkeletonContainer">
+                                <video 
+                                    ref={videoRef}
+                                    className="MImportVideo"
+                                    controls 
+                                    src={previewUrl} 
+                                    onLoadedMetadata={(e) => {
+                                        const duration = e.target.duration;
+                                        console.log('Video duration:', duration);
+                                        setVideoDuration(duration);
+                                    }}
+                                />
+                            </div>
+                        ) : !isProcessing && (
+                            <div className="MSkeletonContainer">
+                                <p className="MDragText">
+                                    Skeleton preview will appear here after processing
+                                </p>
+                            </div>
                         )}
                         
                         {/* Hidden canvas for video processing */}

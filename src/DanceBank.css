@@ -23,6 +23,13 @@
     padding-top: 15px;
     padding-bottom: 15px;
     text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.HomeButtonPlus:hover {
+    background-color: #335345;
+    color: #ffffff;
 }
 
 .HeadButton {

@@ -16,8 +16,12 @@ const moveIcons = {
   'Jump': '⬆️',
 };
 
-// Default dance image
-const DEFAULT_DANCE_IMAGE = './DancingDude.png';
+// Available tags for dances
+const availableTags = [
+  "Hip Hop", "Contemporary", "Jazz", "Ballet", "Freestyle", 
+  "TikTok", "Tutorial", "Beginner", "Advanced", "Energetic", 
+  "Slow", "Party", "Solo", "Group", "Kids", "Workout"
+];
 
 const DanceCreation = () => {
   const navigate = useNavigate();
@@ -41,7 +45,7 @@ const DanceCreation = () => {
   const [danceMetadata, setDanceMetadata] = useState({
     artist: '',
     difficulty: 'Medium',
-    img: DEFAULT_DANCE_IMAGE
+    tags: []
   });
 
   const { title: projectTitle, timelineMoves } = currentDance;
@@ -81,7 +85,7 @@ const DanceCreation = () => {
           setDanceMetadata({
             artist: existingDance.metadata.artist || '',
             difficulty: existingDance.metadata.difficulty || 'Medium',
-            img: existingDance.metadata.img || DEFAULT_DANCE_IMAGE
+            tags: existingDance.metadata.tags || []
           });
         }
       }
@@ -187,16 +191,20 @@ const DanceCreation = () => {
 
     // Only change the source if it's different from the current one
     if (video.getAttribute('src') !== videoSource) {
-      const wasPlaying = !video.paused;
+      const wasPlaying = !video.paused || isPlaying || shouldAutoPlay;
       
       video.setAttribute('src', videoSource);
       video.setAttribute('data-current-move', move.name);
       video.currentTime = startTime;
       
       const handleCanPlay = () => {
-        if (shouldAutoPlay || wasPlaying || isPlaying) {
-          video.play().catch((err) => {
+        if (wasPlaying) {
+          video.play().then(() => {
+            // Ensure the isPlaying state is updated
+            setIsPlaying(true);
+          }).catch((err) => {
             console.warn("Playback failed:", err);
+            setIsPlaying(false);
           });
         }
         video.removeEventListener('loadeddata', handleCanPlay);
@@ -208,8 +216,11 @@ const DanceCreation = () => {
       // If the same source, just update the time and play if needed.
       video.currentTime = startTime;
       if (shouldAutoPlay || isPlaying) {
-        video.play().catch(err => {
+        video.play().then(() => {
+          setIsPlaying(true);
+        }).catch(err => {
           console.warn("Playback failed:", err);
+          setIsPlaying(false);
         });
       }
     }
@@ -307,6 +318,22 @@ const DanceCreation = () => {
     }
   };
 
+  // Toggle tag selection
+  const handleTagToggle = (tag) => {
+    const updatedTags = [...danceMetadata.tags];
+    const tagIndex = updatedTags.indexOf(tag);
+    
+    if (tagIndex === -1) {
+      // Add tag if not already selected
+      updatedTags.push(tag);
+    } else {
+      // Remove tag if already selected
+      updatedTags.splice(tagIndex, 1);
+    }
+    
+    setDanceMetadata({...danceMetadata, tags: updatedTags});
+  };
+
   // Open metadata modal and pre-fill if editing existing dance
   const handleOpenSaveDialog = () => {
     if (timelineMoves.length === 0 || !projectTitle.trim()) {
@@ -321,7 +348,7 @@ const DanceCreation = () => {
         setDanceMetadata({
           artist: existingDance.metadata.artist || '',
           difficulty: existingDance.metadata.difficulty || 'Medium',
-          img: existingDance.metadata.img || DEFAULT_DANCE_IMAGE
+          tags: existingDance.metadata.tags || []
         });
       }
     }
@@ -529,7 +556,7 @@ const DanceCreation = () => {
         </div>
       </div>
 
-      {/* Metadata Modal */}
+      {/* Metadata Modal with Tags */}
       {showMetadataModal && (
         <div className="metadata-modal-overlay">
           <div className="metadata-modal">
@@ -555,26 +582,17 @@ const DanceCreation = () => {
               </select>
             </div>
             <div className="form-group">
-              <label>Dance Image:</label>
-              <div className="image-options">
-                <div 
-                  className={`image-option ${danceMetadata.img === './DancingDude.png' ? 'selected' : ''}`}
-                  onClick={() => setDanceMetadata({...danceMetadata, img: './DancingDude.png'})}
-                >
-                  <img src="./DancingDude.png" alt="Dancing Dude" />
-                </div>
-                <div 
-                  className={`image-option ${danceMetadata.img === './DancingLady.png' ? 'selected' : ''}`}
-                  onClick={() => setDanceMetadata({...danceMetadata, img: './DancingLady.png'})}
-                >
-                  <img src="./DancingLady.png" alt="Dancing Lady" />
-                </div>
-                <div 
-                  className={`image-option ${danceMetadata.img === './CustomDance.png' ? 'selected' : ''}`}
-                  onClick={() => setDanceMetadata({...danceMetadata, img: './CustomDance.png'})}
-                >
-                  <img src="./CustomDance.png" alt="Custom Dance" />
-                </div>
+              <label>Tags: (Select all that apply)</label>
+              <div className="tags-container">
+                {availableTags.map(tag => (
+                  <div 
+                    key={tag} 
+                    className={`tag-item ${danceMetadata.tags.includes(tag) ? 'selected' : ''}`}
+                    onClick={() => handleTagToggle(tag)}
+                  >
+                    {tag}
+                  </div>
+                ))}
               </div>
             </div>
             <div className="modal-buttons">
