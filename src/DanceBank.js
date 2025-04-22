@@ -20,14 +20,7 @@ function DanceBank() {
     
     // Sample preset dances - in a real app, these might come from an API
     // or be initialized in your context
-    const presetDances = [
-        { id: "dance-1", title: "Poker Face", artist: "Lady Gaga", difficulty: "Medium", time: "3:07", img: "./DancingDude.png" },
-        { id: "dance-2", title: "Moves Like Jagger", artist: "Maroon 5", difficulty: "Hard", time: "4:39", img: "./DancingDude.png" },
-        { id: "dance-3", title: "Firework", artist: "Katy Perry", difficulty: "Medium", time: "3:53", img: "./DancingDude.png" },
-        { id: "dance-4", title: "Just Dance", artist: "Lady Gaga", difficulty: "Medium", time: "4:07", img: "./DancingDude.png" },
-        { id: "dance-5", title: "POP/STARS", artist: "K/DA", difficulty: "Hard", time: "3:23", img: "./DancingDude.png" },
-        { id: "dance-6", title: "U Can't Touch This", artist: "MC Hammer", difficulty: "Medium", time: "4:34", img: "./DancingDude.png" },
-    ];
+    const presetDances = Dances;
     
     // Combine preset dances with user-created dances
     const allDances = [
@@ -44,6 +37,7 @@ function DanceBank() {
         }))
     ];
     const [tagFilter, setTagFilter] = useState([]);
+    const [timeFilter, setTimeFilter] = useState([]);
 
     // Storing dances in another file to reduce cluter. 
 
@@ -72,12 +66,33 @@ function DanceBank() {
       );
     };
 
+    const handleTimeChange = (time) => {
+      setTimeFilter((prev) =>
+        prev.includes(time) ? prev.filter((t) => t !== time) : [...prev, time]
+      );
+    };
+
     const filteredDances = allDances.filter((dance) => {
-        let searched = dance.title.toLowerCase().includes(searchTerm);
-        let diffFilter = difficultyFilter.length === 0 || difficultyFilter.includes(dance.difficulty);
-        let tagMatch = tagFilter.length === 0 || dance.tags.some((tag) => tagFilter.includes(tag));
-        return searched && diffFilter && tagMatch;
-    })
+      const searched = dance.title.toLowerCase().includes(searchTerm);
+      const diffFilter = difficultyFilter.length === 0 || difficultyFilter.includes(dance.difficulty);
+      const tagMatch = tagFilter.length === 0 || dance.tags.some((tag) => tagFilter.includes(tag));
+    
+      
+      const [minutes, seconds] = dance.time.split(":").map(Number);
+      const timeInMin = minutes + seconds / 60;
+    
+      const timeMatch =
+        timeFilter.length === 0 ||
+        timeFilter.some((filter) => {
+          if (filter === "<1 min") return timeInMin < 1;
+          if (filter === "1-2 min") return timeInMin >= 1 && timeInMin <= 2;
+          if (filter === "2-3 min") return timeInMin > 2 && timeInMin <= 3;
+          if (filter === "3+ min") return timeInMin > 3;
+          return true;
+        });
+    
+      return searched && diffFilter && tagMatch && timeMatch;
+    });
 
   return (
     <div>
@@ -131,6 +146,20 @@ function DanceBank() {
                 ))}
               </div>
 
+              <h3 className="FilterHeader">Time Filter</h3>
+              <div className="FilterTimeGroup">
+                {["<1 min", "1-2 min", "2-3 min", "3+ min"].map((time) => (
+                  <label key={time} className="FilterTimeOption">
+                    <input
+                      type="checkbox"
+                      checked={timeFilter.includes(time)}
+                      onChange={() => handleTimeChange(time)}
+                    />
+                    <span className="FilterLabel">{time}</span>
+                  </label>
+                ))}
+              </div>
+
             </div>
           </div>
           <div className="Dances">
@@ -144,6 +173,7 @@ function DanceBank() {
                         <div className="Info">
                             <strong>{dance.title}</strong>
                             <p>{dance.artist}</p>
+                            <p>{dance.tags.join(", ")}</p>
                             <p>{dance.difficulty}</p>
                             <p>{dance.time}</p>
                         </div>
