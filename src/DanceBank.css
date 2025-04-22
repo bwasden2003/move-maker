@@ -77,20 +77,26 @@
   
 .FiltersContainer {
     display: flex;
-        flex-direction: column;
+    flex-direction: column;
     gap: 5px;
 }
   
 .FilterGroup {
     display: flex;
-        flex-direction: column;
+    flex-direction: column;
     background-color: rgba(128, 128, 128, 0.2);
+    flex-grow: 1;
+    grid-template-columns: repeat(auto-fill, minmax(100px, auto));
+    gap: 10px;
+    max-height: 150px;
+    overflow-y: auto;
 }
   
 
 
 .FilterTagGroup {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     background-color: rgba(128, 128, 128, 0.2);
     flex-grow: 1;
     grid-template-columns: repeat(auto-fill, minmax(100px, auto)); 
@@ -100,7 +106,8 @@
 }
 
 .FilterTimeGroup{
-    display: grid;
+    display: flex;
+    flex-direction: column;
     background-color: rgba(128, 128, 128, 0.2);
     flex-grow: 1;
     grid-template-columns: repeat(auto-fill, minmax(100px, auto)); 
@@ -130,10 +137,15 @@
 }
   
 .FilterOption {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-    cursor: pointer;
+    display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 20px;
+        background-color: #162e1c;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
 }
  
   
