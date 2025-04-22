@@ -18,9 +18,7 @@ const moveIcons = {
 
 // Available tags for dances
 const availableTags = [
-  "Hip Hop", "Contemporary", "Jazz", "Ballet", "Freestyle", 
-  "TikTok", "Tutorial", "Beginner", "Advanced", "Energetic", 
-  "Slow", "Party", "Solo", "Group", "Kids", "Workout"
+  "Pop", "Hip-Hop", "Ballet", "Jazz", "K-Pop", "Dance", "Funk", "Latin", "Rock", "2000s", "2010s"
 ];
 
 const DanceCreation = () => {
