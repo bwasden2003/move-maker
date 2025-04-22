@@ -12,36 +12,54 @@
 }
 
 .HomeButtonPlus {
-    background-color: #ffffff;
-    border-radius: 10px;
-    border-color: #335345;
-    border-style: solid;
-    color: #335345;
-    font-family: "PT Sans Caption", sans-serif;
-    font-size: 48px;
-    font-weight: bold;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    align-self: flex-start;
+    font-size: 18px;
+    color: var(--primary-color);
+    background-color: var(--white);
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
+.HomeButtonPlus:hover {
+    background-color: #335345;
+    color: #ffffff;
+}
 .HeadButton {
-    background-color: #ffffff;
-    border-radius: 10px;
-    border-color: #335345;
-    color: #335345;
-    font-family: "PT Sans Caption", sans-serif;
-    font-size: 96px;
     font-weight: bold;
-    padding-bottom: 15px;
+    font-size: clamp(40px, 5vw, 75px);
+    color: var(--primary-color);
+    margin: 50px 0 5px;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: var(--white);
+    border: 3px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 1000px;
+}
+
+.ContentWrapper {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 15vh - 2rem);
+    margin: 45px;
+    gap: 20px;
 }
 
 .SortAndFilter {
     position: sticky;
-    margin: 1rem 2rem;
+    margin: 45px;
     background-color: #E3CBA5;
     border-radius: 10px;
-    padding: 20px;
+    padding: 20px;   
+    flex-direction: row;
 }
 
 .SearchBox {
@@ -59,7 +77,9 @@
 }
 
 .Filters {
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .CategoryHeader {
@@ -74,15 +94,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    padding-left: 20px;
+    padding-left: 5px;
 }
 
 .Categories label {
     display: flex;
-    align-items: center;
+    align-items: left;
+    text-align: left;
     cursor: pointer;
     font-family: "PT Sans Caption", sans-serif;
-    color: #335345;
+    color: #d3e0db;
     font-size: 18px;
 }
 
@@ -91,11 +112,14 @@
 }
 
 .Moves {
+    flex-grow: 1;
+    overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 2fr));
     gap: 15px;
     padding: 20px;
-    justify-content: center;
+    border-radius: 10px;
+    min-height: 0;
 }
 
 .MoveCard {

@@ -308,7 +308,7 @@ function MoveCreator() {
     return (
         <>
             <div className="MTitle">
-                <Link to="/" className="MBackButton">Back</Link>
+                <Link to="/" className="MBackButton">Home</Link>
                 <h1 className="MTitleText">Move Creator</h1>
             </div>
             <div className="MPageContent">

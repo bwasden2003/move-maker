@@ -22,20 +22,19 @@
 
 .home-btn,
 .next-btn {
+    align-self: flex-start;
+    font-size: 18px;
+    color: var(--primary-color);
+    background-color: var(--white);
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-decoration: none;
     display: flex;
     align-items: center;
-    padding: 8px 16px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    border-color: #335345;
-    border-style: solid;
-    color: #335345;
-    border-radius: 10px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    font-family: "PT Sans Caption", sans-serif;
-    font-weight: bold;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
 .home-btn:hover,

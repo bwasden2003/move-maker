@@ -12,19 +12,19 @@
 }
 
 .HomeButtonPlus{
-    background-color: #ffffff;
-    border-radius: 10px;
-    border-color: #335345;
-    border-style: solid;
-    color: #335345;
-    font-family: "PT Sans Caption", sans-serif;
-    font-size: 48px;
-    font-weight: bold;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    text-decoration: none;
+    align-self: flex-start;
+    font-size: 18px;
+    color: var(--primary-color);
+    background-color: var(--white);
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 8px 15px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
 .HomeButtonPlus:hover {
@@ -33,14 +33,17 @@
 }
 
 .HeadButton {
-    background-color: #ffffff;
-    border-radius: 10px;
-    border-color: #335345;
-    color: #335345;
-    font-family: "PT Sans Caption", sans-serif;
-    font-size: 96px;
     font-weight: bold;
-    padding-bottom: 15px;
+    font-size: clamp(40px, 5vw, 75px);
+    color: var(--primary-color);
+    margin: 50px 0 5px;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: var(--white);
+    border: 3px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 1000px;
 }
 
 .SearchFilterWrapper {
@@ -146,7 +149,6 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 2fr));
     gap: 15px;
     padding: 20px;
-    background-color: #fff;
     border-radius: 10px;
     min-height: 0;
 }
