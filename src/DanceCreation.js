@@ -446,7 +446,7 @@ const DanceCreation = () => {
     <div className="dance-creation">
       <div className="header">
         <Link to="/" className="home-btn">
-          <span className="home-icon">🏠</span> Home
+          <span className="home-icon"></span> Home
         </Link>
         <input 
           type="text" 
