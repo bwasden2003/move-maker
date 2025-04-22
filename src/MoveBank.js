@@ -85,32 +85,32 @@ function MoveBank() {
                 <button className="HeadButton">Move Bank</button>
                 <Link to="/move-creator" className="HomeButtonPlus">+</Link>
             </div>
-            <div className="SortAndFilter">
-                <div className="SearchBox">
-                    <input
-                        type='text'
-                        placeholder='Search Moves'
-                        value={searchTerm}
-                        onChange={handleSearch}
-                    />
-                </div>
-                <div className="Filters">
-                    <h3 className="CategoryHeader">Category Filters</h3>
-                    <div className="Categories">
-                        {allCategories.map(category => (
-                            <label key={category}>
-                                <input
-                                    type="checkbox"
-                                    checked={categoryFilter.includes(category)}
-                                    onChange={() => handleCategoryChange(category)}
-                                />
-                                {category}
-                            </label>
-                        ))}
+            <div className="ContentWrapper">
+                <div className="SortAndFilter">
+                    <div className="SearchBox">
+                        <input
+                            type='text'
+                            placeholder='Search Moves'
+                            value={searchTerm}
+                            onChange={handleSearch}
+                        />
+                    </div>
+                    <div className="Filters">
+                        <h3 className="CategoryHeader">Category Filters</h3>
+                        <div className="Categories">
+                            {allCategories.map(category => (
+                                <label key={category}>
+                                    <input
+                                        type="checkbox"
+                                        checked={categoryFilter.includes(category)}
+                                        onChange={() => handleCategoryChange(category)}
+                                    />
+                                    {category}
+                                </label>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
-
             <div className="Moves">
                 {filteredMoves.map((move, i) => (
                     <div
@@ -161,6 +161,7 @@ function MoveBank() {
                     </div>
                 )}
             </div>
+        </div>
         </div>
     );
 }

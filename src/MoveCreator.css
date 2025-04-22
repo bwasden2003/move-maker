@@ -63,7 +63,7 @@ body {
 }
 
 .MTitleText {
-  font-weight: 500;
+  font-weight: bold;
   font-size: clamp(40px, 5vw, 75px);
   color: var(--primary-color);
   margin: 10px 0 5px;
