@@ -175,7 +175,7 @@ label:hover {
 }
 
 .MSaveButton {
-  border: 2px solid var(--gray);
+  border: 2px solid var(--secondary-color);
   border-radius: var(--border-radius);
   background-color: var(--light-gray);
   color: var(--white);
@@ -285,26 +285,30 @@ label:hover {
 }
 
 .MProcessButton {
-  padding: 10px 15px;
-  background-color: #2196f3;
-  color: white;
-  border: none;
-  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  background-color: var(--secondary-color);
+  color: var(--white);
+  font-size: 20px;
+  padding: 12px 20px;
+  margin: 5px 0;
+  text-align: center;
   cursor: pointer;
-  font-weight: bold;
   transition: all 0.3s ease;
   flex: 1;
 }
 
 .MProcessButton:hover {
-  background-color: #0b7dda;
+  background-color: var(--primary-color);
+  border-color: var(--hover-green);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .MProcessButton:active {
+  background-color: var(--active-green);
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .MProcessButton:disabled,
