@@ -32,6 +32,7 @@ function DanceBank() {
             artist: dance.metadata?.artist || "Custom Dance",
             difficulty: dance.metadata?.difficulty || "Custom",
             time: formatTime(dance.totalDuration),
+            tags: dance.metadata?.tags || [],
             img: dance.metadata?.img || "./CustomDance.png",
             isCustom: true
         }))

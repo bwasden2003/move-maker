@@ -128,6 +128,18 @@
     font-size: 16px; 
 }
 
+.FilterTimeOption {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    background-color: #162e1c;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
 .FilterHeader {
     font-size: 20px;
     margin-bottom: 10px;
@@ -138,14 +150,14 @@
   
 .FilterOption {
     display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 8px 20px;
-        background-color: #162e1c;
-        border-radius: 8px;
-        color: white;
-        cursor: pointer;
-        font-size: 16px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    background-color: #162e1c;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
 }
  
   
