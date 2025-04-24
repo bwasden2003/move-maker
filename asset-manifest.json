@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/move-maker/static/css/main.db56750a.css",
-    "main.js": "/move-maker/static/js/main.0f42caaf.js",
+    "main.css": "/move-maker/static/css/main.7bfa2161.css",
+    "main.js": "/move-maker/static/js/main.fc6cb514.js",
     "static/js/453.247fcc76.chunk.js": "/move-maker/static/js/453.247fcc76.chunk.js",
     "static/media/DancingDude.png": "/move-maker/static/media/DancingDude.bfb15104baca59ccba6a.png",
     "index.html": "/move-maker/index.html",
-    "main.db56750a.css.map": "/move-maker/static/css/main.db56750a.css.map",
-    "main.0f42caaf.js.map": "/move-maker/static/js/main.0f42caaf.js.map",
+    "main.7bfa2161.css.map": "/move-maker/static/css/main.7bfa2161.css.map",
+    "main.fc6cb514.js.map": "/move-maker/static/js/main.fc6cb514.js.map",
     "453.247fcc76.chunk.js.map": "/move-maker/static/js/453.247fcc76.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.db56750a.css",
-    "static/js/main.0f42caaf.js"
+    "static/css/main.7bfa2161.css",
+    "static/js/main.fc6cb514.js"
   ]
 }
